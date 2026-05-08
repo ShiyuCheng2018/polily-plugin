@@ -1,0 +1,8 @@
+{
+  "name": "polily-plugin",
+  "version": "0.1.0",
+  "description": "Claude Code plugin for working with polily — a Polymarket monitoring agent. Provides reference knowledge (DB schema, mechanics, file paths) so Claude Code sessions auto-load polily context.",
+  "homepage": "https://github.com/ShiyuCheng2018/polily-plugin",
+  "repository": "https://github.com/ShiyuCheng2018/polily-plugin",
+  "skills": ["./skills/polily"]
+}
