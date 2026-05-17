@@ -1,6 +1,7 @@
 {
   "name": "polily-plugin",
   "description": "Self-hosted Claude Code marketplace for the polily skill pack. Sister repo of github.com/ShiyuCheng2018/polily — scoped to polily user lifecycle support.",
+  "autoUpdate": true,
   "owner": {
     "name": "Shiyu Cheng",
     "email": "shiyu@ora.io",
@@ -10,7 +11,7 @@
     {
       "name": "polily",
       "description": "Skills scoped to polily user lifecycle support — onboarding, analysis follow-ups, custom strategy authoring, troubleshooting.",
-      "version": "0.1.2",
+      "version": "0.1.3",
       "source": "./",
       "homepage": "https://github.com/ShiyuCheng2018/polily-plugin",
       "license": "MIT",

@@ -49,9 +49,37 @@ That's it — the skill auto-activates next time you mention polily in chat.
 /plugin install github:ShiyuCheng2018/polily-plugin
 ```
 
-**Manage installed plugins:** `/plugin list` · `/plugin update polily@polily-plugin` · `/plugin remove polily@polily-plugin`
+**Manage installed plugins:** `/plugin list` · `/plugin remove polily@polily-plugin`
 
 Requires [Claude Code](https://claude.com/claude-code). Most skills also assume polily is installed locally (`pipx install polily`) — they'll fall back to fetching from GitHub when polily isn't installed, but the local-install experience is faster and more accurate.
+
+## Upgrading
+
+When a new version ships ([releases page](https://github.com/ShiyuCheng2018/polily-plugin/releases)), refresh the marketplace then update the plugin:
+
+```text
+/plugin marketplace update polily-plugin
+/plugin update polily@polily-plugin
+```
+
+**Or update everything you have installed at once:**
+
+```text
+/plugin marketplace update
+/plugin update --all
+```
+
+### Why two steps?
+
+There's a known Claude Code issue ([anthropics/claude-code#21995](https://github.com/anthropics/claude-code/issues/21995)) where `/plugin update` alone doesn't fast-forward the local marketplace clone, so the version check reads stale data and reports *"already at the latest version"* even when a new release exists. Running `/plugin marketplace update` first forces a fresh fetch, then `/plugin update` sees the new version.
+
+This repo sets `"autoUpdate": true` in `.claude-plugin/marketplace.json`, which lets newer Claude Code clients refresh the marketplace catalog on session start — but third-party marketplace `autoUpdate` support varies between Claude Code releases, so the explicit two-step is the reliable path.
+
+### Troubleshooting
+
+- **`/plugin update` says "already at the latest version" but the [releases page](https://github.com/ShiyuCheng2018/polily-plugin/releases) shows a newer version** → run `/plugin marketplace update polily-plugin` first, then re-run `/plugin update polily@polily-plugin`.
+- **Want to know what's installed?** `/plugin list` — shows the installed version next to each plugin name.
+- **Want to see installed-version metadata?** `/plugin details polily@polily-plugin` — author, license, keywords, version.
 
 ## Skills in this pack
 
