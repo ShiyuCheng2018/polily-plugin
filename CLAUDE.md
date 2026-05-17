@@ -45,6 +45,8 @@ Skip bumps for cosmetic regens (whitespace, headers).
 
 **Bump in lockstep** — `.claude-plugin/plugin.json.version` AND `.claude-plugin/marketplace.json.plugins[0].version` must always match. Update `CHANGELOG.md` `[Unreleased]` → `[X.Y.Z] — YYYY-MM-DD` and add the footer compare link before tagging.
 
+**CI gates the CHANGELOG discipline.** `.github/workflows/ci.yml` runs `scripts/check_changelog.py` on every PR — it'll fail the build if the topmost section is still `[Unreleased]`, the top release has no footer link, or `[Unreleased]` compares against a stale version. Run the script locally before pushing: `python3 scripts/check_changelog.py CHANGELOG.md`.
+
 ## Contributing a new skill
 
 Ask first: **does this skill help polily users be more effective at using polily?** Examples that pass: onboarding helper, custom-strategy authoring guide, debugging assistant for polily logs, polymarket-data explorer for polily users, polily upgrade helper. Examples that don't: generic financial analysis skill, broader Polymarket trading tooling, unrelated Claude Code patterns. Polily-bounded scope keeps the pack focused; off-scope contributions get redirected to other homes.

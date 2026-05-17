@@ -38,11 +38,22 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
   + `/plugin install` flow. The legacy `claude plugin add <repo>` command no
   longer exists in current Claude Code releases.
 
+### Added
+
+- **CI: CHANGELOG release-discipline gate** (`scripts/check_changelog.py` +
+  `.github/workflows/ci.yml`). Mirrors the sister polily repo's gate, adapted
+  for polily-plugin's master-only branching model. Runs on every PR; validates
+  (1) topmost section is `[X.Y.Z]` not `[Unreleased]`, (2) top release has a
+  `releases/tag/vX.Y.Z` footer link, (3) `[Unreleased]` link compares against
+  the current top release. Catches the forgotten-rename and stale-link mistakes
+  before merge.
+
 ### Notes
 
 - No SKILL.md content changes. The skill itself is the v0.1.1 build (regenerated
-  against polily v0.12.0); this release is pure packaging-standards alignment.
-- No CLAUDE.md changes. Lifecycle-scope inclusion bar stays in place.
+  against polily v0.12.0); this release is pure packaging-standards alignment
+  + CI hardening.
+- No semantic CLAUDE.md changes — just adds a pointer to the new gate.
 
 ## [0.1.1] — 2026-05-17
 
@@ -69,7 +80,7 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
   generated from `polily/agents/skill_sources/core/*.md` via
   `scripts/generate_skills.py` in the sister repo.
 
-[Unreleased]: https://github.com/ShiyuCheng2018/polily-plugin/compare/v0.1.2...HEAD
+[Unreleased]: https://github.com/ShiyuCheng2018/polily-plugin/compare/v0.1.2...master
 [0.1.2]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.2
 [0.1.1]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.1
 [0.1.0]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.0

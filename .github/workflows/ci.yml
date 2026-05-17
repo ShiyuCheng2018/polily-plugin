@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  # CHANGELOG release discipline gate. polily-plugin is master-only so every
+  # PR runs through it. The script enforces:
+  #   1. Top section is [X.Y.Z], not [Unreleased] (catches forgotten rename)
+  #   2. Top release has a matching footer link in releases/tag/ format
+  #   3. [Unreleased] footer link compares against the current top release
+  # Mirrors the gate in the sister polily repo (with branch name adapted).
+  changelog-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate CHANGELOG release discipline
+        run: python scripts/check_changelog.py CHANGELOG.md
