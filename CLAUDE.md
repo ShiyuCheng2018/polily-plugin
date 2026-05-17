@@ -24,17 +24,26 @@ Skills live in `skills/<name>/SKILL.md`. Before editing one, **read its top matt
 
 ## Plugin manifest discipline
 
-`plugin.json` is the source of truth for what the marketplace ships. A new skill is not part of the pack until you add `./skills/<name>` to `plugin.json.skills`. A directory under `skills/` without a manifest entry is dead code.
+This repo uses Claude Code's **canonical plugin layout** as of v0.1.2:
+
+- `.claude-plugin/plugin.json` — the plugin manifest (name, version, author, keywords). Required location; Claude Code only looks here.
+- `.claude-plugin/marketplace.json` — the marketplace index. Makes this repo a self-contained marketplace so users can `/plugin marketplace add github:ShiyuCheng2018/polily-plugin`.
+
+Skills under `skills/<name>/SKILL.md` are **auto-discovered** by Claude Code — the manifest does not need to list them explicitly. A new skill becomes part of the pack the moment its `SKILL.md` lands.
+
+The plugin's install identifier (`polily`) is separate from the repo name (`polily-plugin`). Repo = marketplace name; plugin within = install name. Mirrors the `obra/superpowers` convention.
 
 ## Versioning
 
-This pack releases independently of polily. Bump `plugin.json.version` and tag a new release when:
+This pack releases independently of polily. Bump version and tag a new release when:
 
 - A skill's content changes meaningfully (new section, removed section, methodology rewrite)
 - A skill is added or removed
-- Marketplace metadata changes (description, icons, etc.)
+- Marketplace metadata changes (description, manifest schema, etc.)
 
 Skip bumps for cosmetic regens (whitespace, headers).
+
+**Bump in lockstep** — `.claude-plugin/plugin.json.version` AND `.claude-plugin/marketplace.json.plugins[0].version` must always match. Update `CHANGELOG.md` `[Unreleased]` → `[X.Y.Z] — YYYY-MM-DD` and add the footer compare link before tagging.
 
 ## Contributing a new skill
 
@@ -44,14 +53,14 @@ Steps:
 
 1. Create `skills/<your-skill-name>/SKILL.md` with YAML frontmatter (`name` + `description`)
 2. Tune the description to fire on the right polily-user queries and not on unrelated ones
-3. Add `./skills/<your-skill-name>` to `plugin.json.skills`
-4. Bump `plugin.json.version` (minor for additions; major for removals or incompatible changes)
+3. Bump version in `.claude-plugin/plugin.json` AND `.claude-plugin/marketplace.json` (keep them in sync; minor for additions, major for removals or incompatible changes)
+4. Add a `[X.Y.Z]` section to `CHANGELOG.md` describing the change
 5. PR
 
 If your skill's content is generated from another repo (polily's single-source-of-truth pattern, or your own equivalent), stamp `SKILL.md` with a `GENERATED FILE — DO NOT EDIT` header naming the source, and add a bullet to "Current skills" above documenting it.
 
 ## What's always safe to edit
 
-- `README.md`, `LICENSE`, `CLAUDE.md` (this file)
-- `plugin.json`
+- `README.md`, `LICENSE`, `CLAUDE.md` (this file), `CHANGELOG.md`
+- `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json` (version bumps + metadata)
 - Any skill that doesn't carry a `GENERATED FILE — DO NOT EDIT` header
