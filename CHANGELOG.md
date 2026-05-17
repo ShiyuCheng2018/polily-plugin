@@ -6,6 +6,45 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.4] — 2026-05-17
+
+Docs-only release fixing incorrect install commands. **No SKILL.md or
+manifest schema changes.**
+
+### Fixed
+
+- **Removed the `github:` prefix from all install/upgrade commands**
+  in README, CHANGELOG, and CLAUDE.md. The `/plugin marketplace add
+  github:owner/repo` form silently returns *"no content"* in Claude
+  Code v2.1.x — three back-to-back attempts during a v0.1.3 smoke test
+  hit this. The slash-command parser's modal help lists the valid
+  formats: `owner/repo` (GitHub), `git@github.com:owner/repo.git`
+  (SSH), `https://...marketplace.json`, or `./path/to/marketplace`.
+  The bare `owner/repo` form is what we use now.
+
+- **Removed the "alternate one-shot install" line** that claimed
+  `/plugin install github:ShiyuCheng2018/polily-plugin` works without
+  adding the marketplace first. Same suspect source — unverified
+  against actual Claude Code behavior, and now suspect by association
+  with the `github:` prefix. The two-step `marketplace add` +
+  `install` is the only flow we have reproducible evidence for.
+
+### Added
+
+- **README "Format details" subsection** listing the 4 valid marketplace
+  source formats verbatim from Claude Code's modal help, with an
+  explicit warning against the `github:` prefix.
+- **README "Modal fallback" subsection** for users whose Claude Code
+  version doesn't accept the inline argument: run `/plugin marketplace
+  add` bare and use the interactive modal.
+- **`/reload-plugins` mention** — Claude Code prompts this after
+  `/plugin install` to activate the plugin without restarting the
+  session. Not in the prior docs.
+- **Stronger "run as two separate commands, don't paste both at once"
+  framing** in the install section. The smoke test that surfaced the
+  prefix bug also surfaced this UX trap (the second command got
+  shoved into the first command's modal input).
+
 ## [0.1.3] — 2026-05-17
 
 User-upgrade-flow hardening. **No SKILL.md content changes.** This release
@@ -53,7 +92,7 @@ from accidentally shipping a version with mismatched manifest files.
 
 - **Added `.claude-plugin/marketplace.json`** so the repo functions as a
   self-contained Claude Code marketplace. Users can now run
-  `/plugin marketplace add github:ShiyuCheng2018/polily-plugin` followed by
+  `/plugin marketplace add ShiyuCheng2018/polily-plugin` followed by
   `/plugin install polily@polily-plugin` — the standard two-step path used by
   superpowers and other plugins in `claude-plugins-official`.
 
@@ -114,7 +153,8 @@ from accidentally shipping a version with mismatched manifest files.
   generated from `polily/agents/skill_sources/core/*.md` via
   `scripts/generate_skills.py` in the sister repo.
 
-[Unreleased]: https://github.com/ShiyuCheng2018/polily-plugin/compare/v0.1.3...master
+[Unreleased]: https://github.com/ShiyuCheng2018/polily-plugin/compare/v0.1.4...master
+[0.1.4]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.4
 [0.1.3]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.3
 [0.1.2]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.2
 [0.1.1]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.1

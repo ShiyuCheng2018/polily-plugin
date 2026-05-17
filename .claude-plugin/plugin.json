@@ -1,6 +1,6 @@
 {
   "name": "polily",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Skills scoped to polily user lifecycle support — onboarding, daily analysis follow-ups, custom strategy authoring, troubleshooting. Auto-activates when polily users chat-query Claude Code about their install (DB schema, daemon mechanics, file paths, runtime methodology lookup).",
   "author": {
     "name": "Shiyu Cheng",

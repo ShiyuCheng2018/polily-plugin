@@ -4,7 +4,7 @@
 purpose: Claude Code marketplace skill pack scoped to polily user lifecycle support
 keywords: polily, polymarket, claude-code, claude-code-plugin, skill, marketplace, prediction-market
 suitable_for: polily users wanting Claude Code to know their install (DB schema, analyses, methodology) without re-explaining each chat
-install: /plugin marketplace add github:ShiyuCheng2018/polily-plugin && /plugin install polily@polily-plugin
+install: /plugin marketplace add ShiyuCheng2018/polily-plugin then /plugin install polily@polily-plugin
 requires: Claude Code; polily installed locally for most skills
 sister_repo: https://github.com/ShiyuCheng2018/polily
 license: MIT
@@ -34,22 +34,52 @@ Claude consults the skill's reference knowledge, runs SQL against your local `po
 
 ## Install
 
-In a Claude Code session, register this repo as a plugin marketplace and install the `polily` plugin from it:
+In a Claude Code session, register this repo as a plugin marketplace and install the `polily` plugin from it. **Run these as two separate commands** — don't paste both at once:
 
 ```text
-/plugin marketplace add github:ShiyuCheng2018/polily-plugin
+/plugin marketplace add ShiyuCheng2018/polily-plugin
+```
+
+Once you see *"Successfully added marketplace: polily-plugin"*, run:
+
+```text
 /plugin install polily@polily-plugin
 ```
 
-That's it — the skill auto-activates next time you mention polily in chat.
-
-**Alternate (one-shot, no marketplace step):**
+Then activate it without restarting the session:
 
 ```text
-/plugin install github:ShiyuCheng2018/polily-plugin
+/reload-plugins
 ```
 
-**Manage installed plugins:** `/plugin list` · `/plugin remove polily@polily-plugin`
+The skill auto-activates next time you mention polily in chat.
+
+### Format details
+
+The Claude Code slash command accepts the marketplace source in any of these forms:
+
+- `owner/repo` (GitHub — shortest, what we use above)
+- `git@github.com:owner/repo.git` (SSH)
+- `https://example.com/marketplace.json` (raw URL)
+- `./path/to/marketplace` (local dev)
+
+> ⚠️ **Don't use a `github:` prefix.** The `github:owner/repo` form silently fails (returns "no content") in Claude Code v2.1.x. Use the bare `owner/repo` form.
+
+### Modal fallback
+
+If `/plugin marketplace add ShiyuCheng2018/polily-plugin` doesn't accept the inline argument in your Claude Code version, run the bare command and Claude Code opens an interactive modal:
+
+```text
+/plugin marketplace add
+```
+
+In the modal's *"Enter marketplace source"* field, type `ShiyuCheng2018/polily-plugin` (nothing else, no second command) and submit.
+
+### Manage installed plugins
+
+- `/plugin list` — show installed plugins + versions (scope marker: User / Local / Project)
+- `/plugin details polily@polily-plugin` — show author, license, keywords, version metadata
+- `/plugin remove polily@polily-plugin` — uninstall
 
 Requires [Claude Code](https://claude.com/claude-code). Most skills also assume polily is installed locally (`pipx install polily`) — they'll fall back to fetching from GitHub when polily isn't installed, but the local-install experience is faster and more accurate.
 

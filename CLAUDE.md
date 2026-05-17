@@ -27,7 +27,7 @@ Skills live in `skills/<name>/SKILL.md`. Before editing one, **read its top matt
 This repo uses Claude Code's **canonical plugin layout** as of v0.1.2:
 
 - `.claude-plugin/plugin.json` — the plugin manifest (name, version, author, keywords). Required location; Claude Code only looks here.
-- `.claude-plugin/marketplace.json` — the marketplace index. Makes this repo a self-contained marketplace so users can `/plugin marketplace add github:ShiyuCheng2018/polily-plugin`. Has `"autoUpdate": true` at the marketplace root (added v0.1.3) so newer Claude Code clients refresh the catalog on session start.
+- `.claude-plugin/marketplace.json` — the marketplace index. Makes this repo a self-contained marketplace so users can `/plugin marketplace add ShiyuCheng2018/polily-plugin` (bare `owner/repo` form — no `github:` prefix, that variant silently fails). Has `"autoUpdate": true` at the marketplace root (added v0.1.3) so newer Claude Code clients refresh the catalog on session start.
 
 Skills under `skills/<name>/SKILL.md` are **auto-discovered** by Claude Code — the manifest does not need to list them explicitly. A new skill becomes part of the pack the moment its `SKILL.md` lands.
 
