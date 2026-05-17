@@ -1,8 +1,0 @@
-{
-  "name": "polily-plugin",
-  "version": "0.1.1",
-  "description": "Claude Code marketplace plugin pack scoped to polily user lifecycle support. Skills auto-activate when polily users chat-query Claude Code about their install — DB schema, daemon mechanics, file paths, runtime methodology lookup.",
-  "homepage": "https://github.com/ShiyuCheng2018/polily-plugin",
-  "repository": "https://github.com/ShiyuCheng2018/polily-plugin",
-  "skills": ["./skills/polily"]
-}

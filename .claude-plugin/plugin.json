@@ -1,0 +1,21 @@
+{
+  "name": "polily",
+  "version": "0.1.2",
+  "description": "Skills scoped to polily user lifecycle support — onboarding, daily analysis follow-ups, custom strategy authoring, troubleshooting. Auto-activates when polily users chat-query Claude Code about their install (DB schema, daemon mechanics, file paths, runtime methodology lookup).",
+  "author": {
+    "name": "Shiyu Cheng",
+    "email": "shiyu@ora.io",
+    "url": "https://github.com/ShiyuCheng2018"
+  },
+  "homepage": "https://github.com/ShiyuCheng2018/polily-plugin",
+  "repository": "https://github.com/ShiyuCheng2018/polily-plugin",
+  "license": "MIT",
+  "keywords": [
+    "polily",
+    "polymarket",
+    "prediction-markets",
+    "trading",
+    "analysis",
+    "skill-pack"
+  ]
+}

@@ -4,7 +4,7 @@
 purpose: Claude Code marketplace skill pack scoped to polily user lifecycle support
 keywords: polily, polymarket, claude-code, claude-code-plugin, skill, marketplace, prediction-market
 suitable_for: polily users wanting Claude Code to know their install (DB schema, analyses, methodology) without re-explaining each chat
-install: claude plugin add github.com/ShiyuCheng2018/polily-plugin
+install: /plugin marketplace add github:ShiyuCheng2018/polily-plugin && /plugin install polily@polily-plugin
 requires: Claude Code; polily installed locally for most skills
 sister_repo: https://github.com/ShiyuCheng2018/polily
 license: MIT
@@ -34,11 +34,22 @@ Claude consults the skill's reference knowledge, runs SQL against your local `po
 
 ## Install
 
-```bash
-claude plugin add github.com/ShiyuCheng2018/polily-plugin
+In a Claude Code session, register this repo as a plugin marketplace and install the `polily` plugin from it:
+
+```text
+/plugin marketplace add github:ShiyuCheng2018/polily-plugin
+/plugin install polily@polily-plugin
 ```
 
-(Or via Claude Code's plugin marketplace UI.)
+That's it — the skill auto-activates next time you mention polily in chat.
+
+**Alternate (one-shot, no marketplace step):**
+
+```text
+/plugin install github:ShiyuCheng2018/polily-plugin
+```
+
+**Manage installed plugins:** `/plugin list` · `/plugin update polily@polily-plugin` · `/plugin remove polily@polily-plugin`
 
 Requires [Claude Code](https://claude.com/claude-code). Most skills also assume polily is installed locally (`pipx install polily`) — they'll fall back to fetching from GitHub when polily isn't installed, but the local-install experience is faster and more accurate.
 
@@ -78,7 +89,7 @@ The generator writes to both polily's internal copy AND this repo's artifact. Se
 
 ## Versioning
 
-This pack releases independently of polily. Each release bumps `plugin.json.version` and gets a corresponding git tag. See [releases](https://github.com/ShiyuCheng2018/polily-plugin/releases) for history.
+This pack releases independently of polily. Each release bumps the version in `.claude-plugin/plugin.json` (and the mirrored entry in `.claude-plugin/marketplace.json`) and gets a corresponding git tag. See [CHANGELOG.md](CHANGELOG.md) and the [releases page](https://github.com/ShiyuCheng2018/polily-plugin/releases) for history.
 
 ## License
 
