@@ -21,3 +21,18 @@ jobs:
           python-version: "3.11"
       - name: Validate CHANGELOG release discipline
         run: python scripts/check_changelog.py CHANGELOG.md
+
+  # Plugin/marketplace manifest version-sync gate. Catches the failure mode
+  # where `plugin.json.version` and `marketplace.json.plugins[*].version`
+  # drift (per Claude Code's resolution rules, plugin.json wins silently —
+  # marketplace listing would lie about the shipped version).
+  version-sync-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate plugin.json ↔ marketplace.json version sync
+        run: python scripts/check_version_sync.py

@@ -6,6 +6,40 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.3] — 2026-05-17
+
+User-upgrade-flow hardening. **No SKILL.md content changes.** This release
+exists to (a) document how users actually get future updates, (b) work around
+a known Claude Code marketplace-refresh bug, and (c) prevent the maintainer
+from accidentally shipping a version with mismatched manifest files.
+
+### Added
+
+- **README "Upgrading" section** documenting the two-step update flow
+  (`/plugin marketplace update polily-plugin` → `/plugin update polily@polily-plugin`)
+  and the rationale (Claude Code [issue #21995](https://github.com/anthropics/claude-code/issues/21995):
+  `/plugin update` alone doesn't fast-forward the local marketplace clone,
+  so single-step updates often report "already at the latest version" even
+  after a real release).
+- **README "Troubleshooting" subsection** for the most likely user
+  failure modes (`/plugin update` reports stale; `/plugin list` and
+  `/plugin details` for diagnostics).
+- **CI: version-sync gate** (`scripts/check_version_sync.py` +
+  `version-sync-check` job in `ci.yml`). Validates that
+  `.claude-plugin/plugin.json.version` and the matching entry in
+  `.claude-plugin/marketplace.json.plugins[].version` are byte-for-byte
+  identical. Per Claude Code's docs, plugin.json wins silently when both
+  are set — drift would make the marketplace listing lie.
+
+### Changed
+
+- **`.claude-plugin/marketplace.json` adds `"autoUpdate": true`** at the
+  marketplace root. Newer Claude Code clients use this to refresh the
+  marketplace catalog on session start, partially mitigating the
+  marketplace-cache bug above. Third-party-marketplace autoUpdate support
+  varies between Claude Code releases, so the README still documents the
+  explicit two-step as the reliable path.
+
 ## [0.1.2] — 2026-05-17
 
 ### Fixed
@@ -80,7 +114,8 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
   generated from `polily/agents/skill_sources/core/*.md` via
   `scripts/generate_skills.py` in the sister repo.
 
-[Unreleased]: https://github.com/ShiyuCheng2018/polily-plugin/compare/v0.1.2...master
+[Unreleased]: https://github.com/ShiyuCheng2018/polily-plugin/compare/v0.1.3...master
+[0.1.3]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.3
 [0.1.2]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.2
 [0.1.1]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.1
 [0.1.0]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.0

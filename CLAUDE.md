@@ -27,11 +27,13 @@ Skills live in `skills/<name>/SKILL.md`. Before editing one, **read its top matt
 This repo uses Claude Code's **canonical plugin layout** as of v0.1.2:
 
 - `.claude-plugin/plugin.json` — the plugin manifest (name, version, author, keywords). Required location; Claude Code only looks here.
-- `.claude-plugin/marketplace.json` — the marketplace index. Makes this repo a self-contained marketplace so users can `/plugin marketplace add github:ShiyuCheng2018/polily-plugin`.
+- `.claude-plugin/marketplace.json` — the marketplace index. Makes this repo a self-contained marketplace so users can `/plugin marketplace add github:ShiyuCheng2018/polily-plugin`. Has `"autoUpdate": true` at the marketplace root (added v0.1.3) so newer Claude Code clients refresh the catalog on session start.
 
 Skills under `skills/<name>/SKILL.md` are **auto-discovered** by Claude Code — the manifest does not need to list them explicitly. A new skill becomes part of the pack the moment its `SKILL.md` lands.
 
 The plugin's install identifier (`polily`) is separate from the repo name (`polily-plugin`). Repo = marketplace name; plugin within = install name. Mirrors the `obra/superpowers` convention.
+
+**Version-bump nuance**: Claude Code resolves a plugin's effective version from `plugin.json.version` first, falling back to `marketplace.json.plugins[*].version`, falling back to git SHA. When both are set (our case), `plugin.json` wins **silently** — so if you bump one but not the other, the marketplace listing lies about what users actually get. The `version-sync-check` CI gate (v0.1.3) catches this before merge.
 
 ## Versioning
 
@@ -46,6 +48,8 @@ Skip bumps for cosmetic regens (whitespace, headers).
 **Bump in lockstep** — `.claude-plugin/plugin.json.version` AND `.claude-plugin/marketplace.json.plugins[0].version` must always match. Update `CHANGELOG.md` `[Unreleased]` → `[X.Y.Z] — YYYY-MM-DD` and add the footer compare link before tagging.
 
 **CI gates the CHANGELOG discipline.** `.github/workflows/ci.yml` runs `scripts/check_changelog.py` on every PR — it'll fail the build if the topmost section is still `[Unreleased]`, the top release has no footer link, or `[Unreleased]` compares against a stale version. Run the script locally before pushing: `python3 scripts/check_changelog.py CHANGELOG.md`.
+
+**CI also gates manifest version-sync.** `scripts/check_version_sync.py` validates that `.claude-plugin/plugin.json.version` and the matching entry in `.claude-plugin/marketplace.json.plugins[].version` are byte-for-byte identical. Per Claude Code's resolution rules, `plugin.json` wins silently when both are set — drift makes the marketplace listing lie. The gate catches this before merge. Run locally: `python3 scripts/check_version_sync.py`.
 
 ## Contributing a new skill
 
