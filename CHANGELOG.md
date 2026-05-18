@@ -6,6 +6,35 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.5] — 2026-05-18
+
+Docs-only release syncing the public-facing portion of `events.event_metadata`
+documentation from polily's `skill_sources/core/04_data_freshness.md` v0.12.2
+edit. **No SKILL.md content semantics change**, just classification accuracy
++ unreliability warning surfaced.
+
+### Changed
+
+- **`events.event_metadata` reclassified from "Bucket 4 — Static" to a new
+  "Bucket 5 — Externally-curated, freshness-tracked"** in `skills/polily/SKILL.md`.
+  Prior classification was wrong — polily refetches `event_metadata` when
+  Polymarket's `context_requires_regen=true` flag fires (see polily's
+  `polily/daemon/event_metadata_regen.py`, shipped v0.12.0). New Bucket 5
+  warns about the flag being **empirically unreliable** (polily v0.12.2's
+  T-2 dev_feedback evidence: descriptions stayed 5-6 days stale while the
+  flag was false) and directs Claude Code chat sessions to always check
+  `context_updated_at` against the current time before treating
+  `context_description` as authoritative.
+
+### Source-of-truth
+
+This file was regenerated from polily's `skill_sources/core/*.md` via
+polily's `scripts/generate_skills.py` — same single-source-of-truth pipeline
+that produced earlier v0.1.x releases. The internal-only ephemeral-block
+details (which talk about polily's analytical agent's prompt injection)
+are filtered out by audience tags; this release only carries the
+publicly-meaningful part of the Bucket 5 reclassification.
+
 ## [0.1.4] — 2026-05-17
 
 Docs-only release fixing incorrect install commands. **No SKILL.md or
@@ -153,7 +182,8 @@ from accidentally shipping a version with mismatched manifest files.
   generated from `polily/agents/skill_sources/core/*.md` via
   `scripts/generate_skills.py` in the sister repo.
 
-[Unreleased]: https://github.com/ShiyuCheng2018/polily-plugin/compare/v0.1.4...master
+[Unreleased]: https://github.com/ShiyuCheng2018/polily-plugin/compare/v0.1.5...master
+[0.1.5]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.5
 [0.1.4]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.4
 [0.1.3]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.3
 [0.1.2]: https://github.com/ShiyuCheng2018/polily-plugin/releases/tag/v0.1.2

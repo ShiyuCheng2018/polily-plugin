@@ -305,7 +305,6 @@ Cost is non-trivial — `WebSearch` and `Bash curl` add seconds per call. Use th
 
 ### Bucket 4 — Static (set once, doesn't change)
 
-- `events.event_metadata` (JSON; may include `context_description`)
 - `events.tags`, `events.market_type`, `events.resolution_source`
 - `events.start_date`, `events.end_date`
 - DB schema itself (column names, CHECK constraints) — see §3
@@ -313,6 +312,12 @@ Cost is non-trivial — `WebSearch` and `Bash curl` add seconds per call. Use th
 - Pre-existing rows in `analyses` (immutable history; new rows append per analysis)
 
 When you observe a value changing across two reads in the same analysis, it is bucket 1 or 2 — not bucket 4, not a bug. Mention the timestamps in your narrative if it materially affected your reasoning.
+
+### Bucket 5 — Externally-curated, freshness-tracked
+
+- **`events.event_metadata`** (JSON; carries `context_description`, `context_updated_at`, `context_requires_regen`)
+
+Polymarket curates this on their side. Polily refetches it when Polymarket sets `context_requires_regen=true` (handled by `polily/daemon/event_metadata_regen.py`). The flag is empirically **unreliable** — Polymarket sometimes leaves stale descriptions with the flag false, especially for fast-moving political / economic events. Always check `context_updated_at` against the current time before treating `context_description` as authoritative.
 
 ## 5. File Paths
 
